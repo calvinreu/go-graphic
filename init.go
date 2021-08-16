@@ -11,7 +11,7 @@ import (
 //Config data loaded form config json
 type Config struct {
 	Window      WindowConfig
-	BaseSprites []SpriteConfig
+	BaseSprites []SpriteBaseConfig
 }
 
 //WindowConfig Render info for Window
@@ -21,10 +21,37 @@ type WindowConfig struct {
 	WindowFlags, RendererFlags, FPS uint32
 }
 
-//ImageConfig contains info about one img
+//SpriteBaseConfig base config to create sprites on
+type SpriteBaseConfig struct {
+	ImgPath string
+	Sprites []SpriteConfig
+}
+
+//SpriteConfig config for a sprite based on a SpriteBaseConfig obj
 type SpriteConfig struct {
-	ImgPath  string
-	SrcRects []sdl.Rect
+	Name    string
+	SrcRect sdl.Rect
+}
+
+func (graphic *Graphic) Init(config Config) {
+	var err error
+	*graphic, err = New(config.Window.Title, config.Window.X, config.Window.Y, config.Window.Width, config.Window.Height, config.Window.WindowFlags, config.Window.RendererFlags, config.Window.FPS)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("Window initialized")
+
+	for _, i := range config.BaseSprites {
+		mainSpriteID := graphic.AddSprite(i.ImgPath, i.SrcRects[0])
+		fmt.Println("Initialized sprite via file path: ", i.ImgPath)
+		for _, iSrcRect := range i.SrcRects[1:] {
+			graphic.AddSpriteByID(mainSpriteID, iSrcRect)
+			fmt.Println("Initialized sprite via spriteID: ", mainSpriteID)
+		}
+	}
 }
 
 //Init Config from json files
@@ -69,12 +96,13 @@ func (config *Config) Init(windowJSON, spriteJSON string) {
 	fmt.Println("Sprite config:")
 	for _, i := range config.BaseSprites {
 		fmt.Println("Image file: ", i.ImgPath)
-		for _, iRect := range i.SrcRects {
-			fmt.Println("Source Rectangle:")
-			fmt.Println("X: ", iRect.X)
-			fmt.Println("Y: ", iRect.Y)
-			fmt.Println("W: ", iRect.W)
-			fmt.Println("H: ", iRect.H)
+		fmt.Println()
+		for _, j := range i.Sprites {
+			fmt.Println("Source Rectangle of ", j.Name)
+			fmt.Println("X: ", j.SrcRect.X)
+			fmt.Println("Y: ", j.SrcRect.Y)
+			fmt.Println("W: ", j.SrcRect.W)
+			fmt.Println("H: ", j.SrcRect.H)
 			fmt.Println()
 		}
 		fmt.Println("----------")
