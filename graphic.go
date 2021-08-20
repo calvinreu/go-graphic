@@ -48,27 +48,26 @@ func (graphic *Graphic) Render() {
 }
 
 //New returns a Graphic object with initialized renderer and window note that Sprites have to be added manual
-func New(title string, x, y, width, heigh int32, WindowFlags, RendererFlags, MaxFPS uint32) (Graphic, error) {
-	var graphic Graphic
-	var err = sdl.Init(sdl.INIT_VIDEO | sdl.INIT_TIMER)
+func (graphic *Graphic) Init(config WindowConfig) error {
+	err := sdl.Init(sdl.INIT_VIDEO | sdl.INIT_TIMER)
 	if err != nil {
-		return graphic, err
+		return err
 	}
 
-	graphic.window, err = sdl.CreateWindow(title, x, y, width, heigh, WindowFlags)
+	graphic.window, err = sdl.CreateWindow(config.Title, config.X, config.Y, config.Width, config.Height, config.WindowFlags)
 	if err != nil {
 		sdl.QuitSubSystem(sdl.INIT_VIDEO | sdl.INIT_TIMER)
-		return graphic, err
+		return err
 	}
 
-	graphic.Renderer, err = sdl.CreateRenderer(graphic.window, -1, RendererFlags)
+	graphic.Renderer, err = sdl.CreateRenderer(graphic.window, -1, config.RendererFlags)
 
 	if err != nil {
-		sdl.QuitSubSystem(sdl.INIT_VIDEO)
-		return graphic, err
+		sdl.QuitSubSystem(sdl.INIT_VIDEO | sdl.INIT_TIMER)
+		return err
 	}
 
-	return graphic, nil
+	return nil
 }
 
 //AddSprite adds another sprite which can be used be creating a instance of it see Sprite.NewInstance
