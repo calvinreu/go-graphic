@@ -3,6 +3,7 @@ package graphic
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/veandco/go-sdl2/sdl"
 )
@@ -13,6 +14,7 @@ type Graphic struct {
 	Renderer *sdl.Renderer
 	window   *sdl.Window
 	fps      uint32
+	logger   log.Logger
 }
 
 //RunOutput will render FPS frames every second until running is false
@@ -49,14 +51,22 @@ func (graphic *Graphic) Render() {
 
 //New returns a Graphic object with initialized renderer and window note that Sprites have to be added manual
 func (graphic *Graphic) Init(config WindowConfig) error {
-	err := sdl.Init(sdl.INIT_VIDEO | sdl.INIT_TIMER)
+	err := InitLogger(&graphic.logger, config.Title)
 	if err != nil {
+		graphic.logger.Println(err)
+		fmt.Println("logs are now disabled")
+	}
+
+	err = sdl.Init(sdl.INIT_VIDEO | sdl.INIT_TIMER)
+	if err != nil {
+		graphic.logger.Println(err)
 		return err
 	}
 
 	graphic.window, err = sdl.CreateWindow(config.Title, config.X, config.Y, config.Width, config.Height, config.WindowFlags)
 	if err != nil {
 		sdl.QuitSubSystem(sdl.INIT_VIDEO | sdl.INIT_TIMER)
+		graphic.logger.Println(err)
 		return err
 	}
 
@@ -64,9 +74,11 @@ func (graphic *Graphic) Init(config WindowConfig) error {
 
 	if err != nil {
 		sdl.QuitSubSystem(sdl.INIT_VIDEO | sdl.INIT_TIMER)
+		graphic.logger.Println(err)
 		return err
 	}
 
+	graphic.logger.Println("Created Window " + config.Title + " succesfully")
 	return nil
 }
 
