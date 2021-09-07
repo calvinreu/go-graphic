@@ -50,17 +50,6 @@ func InitLogger(logger *log.Logger, name string) error {
 	return nil
 }
 
-/*func (graphic *Graphic) Ibnit(config Config) {
-		for _, i := range config.BaseSprites {
-		mainSpriteID := graphic.AddSprite(i.ImgPath, i.SrcRects[0])
-		fmt.Println("Initialized sprite via file path: ", i.ImgPath)
-		for _, iSrcRect := range i.SrcRects[1:] {
-			graphic.AddSpriteByID(mainSpriteID, iSrcRect)
-			fmt.Println("Initialized sprite via spriteID: ", mainSpriteID)
-		}
-	}
-}*/
-
 //Load Config from json files
 func (config *Config) Load(windowJSON, spriteJSON string) error {
 	var windowLog, spriteLog log.Logger
