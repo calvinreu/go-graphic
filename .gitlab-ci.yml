@@ -17,24 +17,12 @@ variables:
 # repository in /go/src/gitlab.com/namespace/project
 # Thus, making a symbolic link corrects this.
 before_script:
-  - mkdir sdl2install
-  - wget https://www.libsdl.org/release/SDL2-2.0.16.tar.gz
-  - tar xf SDL2-2.0.16.tar.gz
-  - cd SDL2-2.0.16
-  - ./configure
-  - make
-  - make install
-  - cd ..
-  - wget https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.tar.gz
-  - tar xf SDL2_image-2.0.5.tar.gz
-  - cd SDL2_image-2.0.5
-  - ./configure
-  - make
-  - make install
-  - cd ..
   - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
   - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
   - cd $GOPATH/src/$REPO_NAME
+
+install: 
+  script: pacman -S sdl2{,_image,_mixer,_ttf,_gfx}
 
 stages:
   - test
