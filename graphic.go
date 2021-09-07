@@ -18,15 +18,20 @@ type Graphic struct {
 }
 
 //RunOutput will render FPS frames every second until running is false
-func (graphic Graphic) RunOutput(running *bool) {
+func (graphic Graphic) RunOutput(stop chan bool) {
 	var timeStamp, frameTime uint32
 	frameTime = 1000 / graphic.fps
 
-	for *running {
-		timeStamp = sdl.GetTicks()
-		graphic.Render()
-		if sdl.GetTicks()-timeStamp < frameTime {
-			sdl.Delay(frameTime - (sdl.GetTicks() - timeStamp))
+	for true {
+		select {
+		case <-stop:
+			return
+		default:
+			timeStamp = sdl.GetTicks()
+			graphic.Render()
+			if sdl.GetTicks()-timeStamp < frameTime {
+				sdl.Delay(frameTime - (sdl.GetTicks() - timeStamp))
+			}
 		}
 	}
 }
