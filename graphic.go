@@ -83,19 +83,19 @@ func (graphic *Graphic) Init(config WindowConfig) error {
 }
 
 //AddSprite adds another sprite which can be used be creating a instance of it see Sprite.NewInstance
-func (graphic *Graphic) AddSprite(imgPath string, srcRect sdl.Rect) uint32 {
+func (graphic *Graphic) AddSprite(imgPath string, srcRect sdl.Rect) (error, uint32) {
 	var err error
 	var sprite Sprite
 	retIndex := len(graphic.Sprites)
 
 	sprite, err = NewSprite(graphic.Renderer, imgPath, srcRect)
 	if err != nil {
-		fmt.Println(err)
-		return 0
+		graphic.logger.Println(err)
+		return err, 0
 	}
 	graphic.Sprites = append(graphic.Sprites, sprite)
 
-	return uint32(retIndex)
+	return nil, uint32(retIndex)
 }
 
 //AddSpriteByID adds another sprite with the same texture as sprite with id spriteID
@@ -103,7 +103,8 @@ func (graphic *Graphic) AddSpriteByID(spriteID uint32, srcRect sdl.Rect) uint32 
 	var sprite Sprite
 
 	if len(graphic.Sprites)-1 < (int)(spriteID) {
-		fmt.Println("sprite: ", spriteID, " does not exist")
+		graphic.logger.Println("sprite: ", spriteID, " does not exist")
+		return 0
 	}
 
 	sprite.texture = graphic.Sprites[spriteID].texture
