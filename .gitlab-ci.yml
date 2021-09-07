@@ -20,7 +20,7 @@ before_script:
   - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
   - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
   - cd $GOPATH/src/$REPO_NAME
-  - apt-get install sdl2 sdl_image
+  - apt-get install libsdl2-dev libsdl2-image-dev
 
 stages:
   - test
