@@ -23,8 +23,7 @@ before_script:
 
 install:
   script:
-    apt-get update
-    apt-get install libsdl2-dev
+    pacman -S sdl2 sdl_image
 
 stages:
   - test
