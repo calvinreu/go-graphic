@@ -1,0 +1,10 @@
+{
+    "Title" : "example",
+    "X" : 0,
+    "Y" : 0,
+    "Width" : 1000,
+    "Height" : 1000,
+    "WindowFlags" : 0,
+    "RendererFlags" : 0,
+    "FPS" : 30
+}

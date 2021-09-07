@@ -1,0 +1,42 @@
+[
+    {
+        "ImgPath" : "img/tile.png",
+        "Sprites" : [{
+            "Name" : "water",
+            "SrcRect" : { 
+                "X" : 0,
+                "Y" : 0,
+                "W" : 50,
+                "H" : 50
+            }
+        },{
+            "Name" : "gras",
+            "SrcRect" : { 
+                "X" : 50,
+                "Y" : 0,
+                "W" : 50,
+                "H" : 50
+            }
+        },{
+            "Name" : "desert",
+            "SrcRect" : { 
+                "X" : 100,
+                "Y" : 0,
+                "W" : 50,
+                "H" : 50
+            }
+        }
+        ]
+    },{
+        "ImgPath" : "img/creature.png",
+        "Sprites" : [{
+            "Name" : "creature",
+            "SrcRect" : {
+                "X" : 0,
+                "Y" : 0,
+                "W" : 10,
+                "H" : 10
+            }
+        }]
+    }
+]
