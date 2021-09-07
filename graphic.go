@@ -8,8 +8,8 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-//Graphic contains the information required to render a window with diffrent Sprites
-type Graphic struct {
+//Window contains the information required to render a window with diffrent Sprites
+type Window struct {
 	Sprites  []Sprite
 	Renderer *sdl.Renderer
 	window   *sdl.Window
@@ -18,7 +18,7 @@ type Graphic struct {
 }
 
 //RunOutput will render FPS frames every second until running is false
-func (graphic Graphic) RunOutput(stop chan bool) {
+func (graphic Window) RunOutput(stop chan bool) {
 	var timeStamp, frameTime uint32
 	frameTime = 1000 / graphic.fps
 
@@ -37,7 +37,7 @@ func (graphic Graphic) RunOutput(stop chan bool) {
 }
 
 //Render renders the information from the graphic object to the screen
-func (graphic *Graphic) Render() {
+func (graphic *Window) Render() {
 
 	graphic.Renderer.SetDrawColor(0, 0, 0, 1)
 	graphic.Renderer.Clear()
@@ -54,8 +54,8 @@ func (graphic *Graphic) Render() {
 	graphic.Renderer.Present()
 }
 
-//New returns a Graphic object with initialized renderer and window note that Sprites have to be added manual
-func (graphic *Graphic) Init(config WindowConfig) error {
+//New returns a Window object with initialized renderer and window note that Sprites have to be added manual
+func (graphic *Window) Init(config WindowConfig) error {
 	err := InitLogger(&graphic.logger, config.Title)
 	if err != nil {
 		graphic.logger.Println(err)
@@ -88,7 +88,7 @@ func (graphic *Graphic) Init(config WindowConfig) error {
 }
 
 //AddSprite adds another sprite which can be used be creating a instance of it see Sprite.NewInstance
-func (graphic *Graphic) AddSprite(imgPath string, srcRect sdl.Rect) (uint32, error) {
+func (graphic *Window) AddSprite(imgPath string, srcRect sdl.Rect) (uint32, error) {
 	var err error
 	var sprite Sprite
 	retIndex := len(graphic.Sprites)
@@ -104,7 +104,7 @@ func (graphic *Graphic) AddSprite(imgPath string, srcRect sdl.Rect) (uint32, err
 }
 
 //AddSpriteByID adds another sprite with the same texture as sprite with id spriteID
-func (graphic *Graphic) AddSpriteByID(spriteID uint32, srcRect sdl.Rect) uint32 {
+func (graphic *Window) AddSpriteByID(spriteID uint32, srcRect sdl.Rect) uint32 {
 	var sprite Sprite
 
 	if len(graphic.Sprites)-1 < (int)(spriteID) {
