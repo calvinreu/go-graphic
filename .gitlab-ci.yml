@@ -4,7 +4,7 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Go.gitlab-ci.yml
 
-image: golang:latest
+image: golang:latest sdl2:latest sdl_image:latest
 
 variables:
   # Please edit to your GitLab project
