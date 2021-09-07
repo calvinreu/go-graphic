@@ -23,8 +23,8 @@ before_script:
 
 install:
   script:
-    sudo apt-get update
-    sudo apt-get install libsdl2-dev
+    apt-get update
+    apt-get install libsdl2-dev
 
 stages:
   - test
