@@ -22,7 +22,7 @@ func (graphic Graphic) RunOutput(stop chan bool) {
 	var timeStamp, frameTime uint32
 	frameTime = 1000 / graphic.fps
 
-	for true {
+	for {
 		select {
 		case <-stop:
 			return
