@@ -1,7 +1,6 @@
 package graphic
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -43,9 +42,7 @@ func InitLogger(logger *log.Logger, name string) error {
 		return err
 	}
 
-	writer := bufio.NewWriter(file)
-
-	logger.SetOutput(writer)
+	logger.SetOutput(file)
 
 	return nil
 }
