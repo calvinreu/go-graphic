@@ -22,7 +22,7 @@ before_script:
   - cd $GOPATH/src/$REPO_NAME
 
 install: 
-  script: pacman -S sdl2{,_image,_mixer,_ttf,_gfx}
+  script: install sdl2{,_image,_mixer,_ttf,_gfx}
 
 stages:
   - test
@@ -30,6 +30,8 @@ stages:
   - deploy
 
 format:
+  needs:
+    - install 
   stage: test
   script:
     - go fmt $(go list ./... | grep -v /vendor/)
