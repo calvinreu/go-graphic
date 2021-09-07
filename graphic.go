@@ -87,6 +87,26 @@ func (graphic *Window) Init(config WindowConfig) error {
 	return nil
 }
 
+//LoadSprites from config object returns map with sprite IDs linked to the sprite name
+func (graphic *Window) LoadSprites(config []SpriteBaseConfig) (map[string]uint32, error) {
+	spriteIDs := make(map[string]uint32)
+
+	for _, i := range config {
+		spriteID, err := graphic.AddSprite(i.ImgPath, i.Sprites[0].SrcRect)
+		spriteIDs[i.Sprites[0].Name] = spriteID
+		if err != nil {
+			graphic.logger.Println("called from LoadSprites")
+			return spriteIDs, err
+		}
+
+		for _, j := range i.Sprites[1:] {
+			spriteIDs[j.Name] = graphic.AddSpriteByID(spriteID, j.SrcRect)
+		}
+	}
+
+	return spriteIDs, nil
+}
+
 //AddSprite adds another sprite which can be used be creating a instance of it see Sprite.NewInstance
 func (graphic *Window) AddSprite(imgPath string, srcRect sdl.Rect) (uint32, error) {
 	var err error
