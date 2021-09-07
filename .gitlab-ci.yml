@@ -21,10 +21,6 @@ before_script:
   - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
   - cd $GOPATH/src/$REPO_NAME
 
-install:
-  script:
-    pacman -S sdl2 sdl_image
-
 stages:
   - test
   - build
