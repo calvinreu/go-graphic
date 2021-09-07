@@ -2,8 +2,10 @@
 package graphic
 
 import (
+	"container/list"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/veandco/go-sdl2/sdl"
 )
@@ -120,6 +122,8 @@ func (graphic *Window) AddSprite(imgPath string, srcRect sdl.Rect) (uint32, erro
 	}
 	graphic.Sprites = append(graphic.Sprites, sprite)
 
+	graphic.logger.Println("added Sprite " + imgPath + " succesfully the ID is " + strconv.Itoa(retIndex))
+
 	return uint32(retIndex), nil
 }
 
@@ -134,7 +138,12 @@ func (graphic *Window) AddSpriteByID(spriteID uint32, srcRect sdl.Rect) uint32 {
 
 	sprite.texture = graphic.Sprites[spriteID].texture
 	sprite.srcRect = srcRect
+	sprite.instances = list.New()
 
 	retIndex := len(graphic.Sprites)
+	graphic.Sprites = append(graphic.Sprites, sprite)
+
+	graphic.logger.Println("added Sprite by ID " + strconv.Itoa(int(spriteID)) + " succesfully the ID is " + strconv.Itoa(retIndex))
+
 	return uint32(retIndex)
 }
